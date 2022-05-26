@@ -9,11 +9,11 @@ Build a simple two-elevator system for n stories. The system can pick up guests 
 
 ## Setup:
 1. Download files into a folder.
-2. Open html file.
-3. Open up console output.
+2. Open html file in browser.
+3. Open up console output (chrome preferred).
 4. Test different floors and see the simulation run in the console.
 
-### Ex (in chrome):
+### Ex.:
 ![image](https://user-images.githubusercontent.com/56245127/170414348-fb74f5fa-20c5-4798-8a10-936ba742f596.png)
 
 
