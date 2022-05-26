@@ -27,7 +27,10 @@ This task requires event-based input. A naive Python or Java solution won't work
 Every current guest of the elevator can placed in one of two groups: wanting to go into the elevator or wanting to come out of the elevator. To mirror this, two arrays of height n are used. Each index represents a floor and each floor contains an array of guests. Each guest is represented by a "Party" instance (will be discussed further). 
 <br>
 <br>
-The first array is state-level, to be shared by all elevator instances, so the closest elevator can pick up the guest. The second array is instance-level since each elevator can their own set of guests inside that must be dropped off.
+The first array is static-level, to be shared by all elevator instances, so the closest elevator can pick up the guest. The second array is object-level since each elevator can have their own set of guests inside that must be dropped off.
+<br>
+<br>
+**The size of the building (n) can be changed. Simply modify global variable n and Elevator.level to equal the desired value (in index.js). 
 
 ### Recieving Input:
 Each time an input in provided, it is recieved by an Event Listener. The input's validity is then confirmed and a corresponding Party object is made. Afterwards, the receiving elevator is determined based on whether the elevator is free and how far it is. Lastly, the corresponding elevator's "fulltrip" method is called if its loop is not already running (uses lock and key logic). This method is the heart of this program because it runs the "elevator loop".
@@ -38,7 +41,7 @@ Each time an input in provided, it is recieved by an Event Listener. The input's
 2. It continues in that direction till there are no more requests left. This is called a pass (upward pass, downward pass).
 3. Repeat
 
-** Both elevators are in this loop concurrently and they might be traveling in the same direction (redundant but faster).  
+**Both elevators are in this loop concurrently and they might be traveling in the same direction (redundant but faster).  
 
 
 ### Time Control
