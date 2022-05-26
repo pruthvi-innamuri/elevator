@@ -8,7 +8,7 @@ Build a simple two-elevator system for n stories. The system can pick up guests 
 
 
 ## Setup:
-1. Download files in a folder.
+1. Download files into a folder.
 2. Open html file.
 3. Open up console output.
 4. Test different floors and see the simulation run in the console.
