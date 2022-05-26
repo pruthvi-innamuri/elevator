@@ -25,4 +25,5 @@ This task requires event-based input. A naive Python or Java solution won't work
 
 ### Elevator Architecture
 Every current guest of the elevator can placed in one of two groups: wanting to go into the elevator or wanting to come out of the elevator. To mirror this, two arrays of height n are used. Each index represents a floor and each floor contains an array of guests. Each guest is represented by a "Party" instance (will be discussed further). 
+<br>
 The first array is state-level, to be shared by all elevator instances, so the closest elevator can pick up the guest. The second array is 
