@@ -33,7 +33,7 @@ The first array is static-level, to be shared by all elevator instances, so the 
 **The size of the building (n) can be changed. Simply modify global variable n and Elevator.level to equal the desired value (in index.js). 
 
 ### Recieving Input:
-Each time an input in provided, it is recieved by an Event Listener. The input's validity is then confirmed and a corresponding Party object is made. Afterwards, the receiving elevator is determined based on whether the elevator is free and how far it is. Lastly, the corresponding elevator's "fulltrip" method is called if its loop is not already running (uses lock and key logic). This method is the heart of this program because it runs the "elevator loop".
+Each time an input in provided, it is recieved by an Event Listener. The input's validity is then confirmed and a corresponding Party object is made. Afterwards, the receiving elevator is determined based on whether the elevator is free and how far it is. Lastly, the corresponding elevator's "fulltrip" loop is called if it is not already running (uses lock and key logic). This method is the heart of this program because it runs the "elevator loop".
 
 
 ### Elevator Loop
