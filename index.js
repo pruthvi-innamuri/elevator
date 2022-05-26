@@ -8,45 +8,35 @@ class Party {
         this.direction = (this.end - this.start)/Math.abs(this.end - this.start); // 1 = Up, -1 = Down
         this.closestElevator = 1;
     }
+
+    // determines closest elevator (1 or 2) to a party
     getClosest() {
         let dist1 = Elevator.getDistance(this.getStart, this.getDirection, elevator1.getCurr, elevator1.getDirection, elevator1);
         let dist2 = Elevator.getDistance(this.getStart, this.getDirection, elevator2.getCurr, elevator2.getDirection, elevator2);
-        
-
 
         if (dist1 < dist2) {
             this.closestElevator = 1;
+        
         } else {
             this.closestElevator = 2;
+        
         }
-
+        
         return this.closestElevator;
     }
 
+    // getters and setters
+    get getElevator() {return this.elevator;}
 
-    get getElevator() {
-        return this.elevator;
-    }
+    set setElevator(x) {this.elevator = x;}
 
-    set setElevator(x) {
-        this.elevator = x;
-    }
+    get getid() {return this.id;}
 
-    get getid() {
-        return this.id;
-    }
+    get getStart() {return this.start;}
 
-    get getStart() {
-        return this.start;
-    }
+    get getend() {return this.end;}
 
-    get getend() {
-        return this.end;
-    }
-
-    get getDirection() {
-        return this.direction;
-    }
+    get getDirection() {return this.direction;}
 }
 
 
@@ -54,6 +44,9 @@ class Party {
 
 
 class Elevator {
+    
+    // STATIC LEVEL
+    
     static levels = 20;
 
     static getDistance (partyFloor, partyD, elevatorFloor, elevatorD, elevator) {
@@ -75,6 +68,9 @@ class Elevator {
 
     }
 
+
+    // INSTANCE LEVEL
+
     constructor(id) {
 
         this.ms = 1; // current wait time on current floor
@@ -92,72 +88,30 @@ class Elevator {
 
     }
 
-    get getid (){
-        return this.id;
-    }
 
-    get getCurr (){
-        return this.curr;
-    }
+    // Getters and Setters
 
-    set setCurr (level) {
-        this.curr = level;
-    }
+    get getid (){ return this.id; }
 
-    get getBusy () {
-        return this.busy;
-    }
+    get getCurr (){ return this.curr;}
 
-    set setBusy (busy) {
-        this.busy = busy;
-    }
+    set setCurr (level) {this.curr = level;}
 
-    get getDirection () {
-        return this.direction;
-    }
+    get getBusy () {return this.busy;}
 
-    set setDirection (direction) {
-        this.direction = direction;
-    }
+    set setBusy (busy) {this.busy = busy;}
 
-    get getIn () {
-        return Elevator.in;
-    }
+    get getDirection () {return this.direction;}
+
+    set setDirection (direction) {this.direction = direction;}
+
+    get getIn () {return Elevator.in;}
     
-    get getOut () {
-        return this.out;
-    }
+    get getOut () {return this.out;}
 
-    get getMs () {
-        return this.ms;
-    }
+    get getMs () {return this.ms;}
 
-    set setMs (ms) {
-        this.ms = ms;
-    }
-
-    // Bounds = farthest an elevator will travel on current pass
-    getUpperBound() {
-        let i = Elevator.levels - 1;
-        for (i = i; i >= this.curr; i-=1) {
-            if (this.getFloorOut(i).length > 0 || this.getFloorIn(i).length > 0) {
-                return i;
-            }
-        }
-
-        return this.getCurr;
-    }
-
-    
-    getLowerBound() {
-        for (let i = 0; i <= this.curr; i+=1) {
-            if (this.getFloorOut(i).length > 0 || this.getFloorIn(i).length > 0) {
-                return i;
-            }
-        }
-        
-        return this.getCurr;
-    }
+    set setMs (ms) {this.ms = ms;}
 
     setFloorIn(floor, val) {
         Elevator.in[floor] = val;
@@ -171,8 +125,50 @@ class Elevator {
         this.out[floor] = val;
     }
 
+    getFloorIn(floorNum) {
+        return Elevator.in[floorNum];
+    }
 
-    // count of people in floors above or below.
+    clearFloorIn(floorNum) {
+        Elevator.in[floorNum] = [];
+    }
+
+    addFloorOut(floorNum, party) {
+        this.out[floorNum].push(party);
+    }
+
+    getFloorOut(floorNum) {
+        return this.out[floorNum];
+
+    }
+
+
+    // Determines farthest an elevator will travel on current pass
+
+    getUpperBound() {
+        let i = Elevator.levels - 1;
+        for (i = i; i >= this.curr; i-=1) {
+            if (this.getFloorOut(i).length > 0 || this.getFloorIn(i).length > 0) {
+                return i;
+            }
+        }
+
+        return this.getCurr;
+    }
+    
+    getLowerBound() {
+        for (let i = 0; i <= this.curr; i+=1) {
+            if (this.getFloorOut(i).length > 0 || this.getFloorIn(i).length > 0) {
+                return i;
+            }
+        }
+        
+        return this.getCurr;
+    }
+
+
+    // Determines count of people in floors above or below.
+
     getCount (floor, arr, d) {
         if (floor >= Elevator.levels || floor < 0){
             return 0;
@@ -194,25 +190,11 @@ class Elevator {
         }
     }
 
-    getFloorIn(floorNum) {
-        return Elevator.in[floorNum];
-    }
-
-    clearFloorIn(floorNum) {
-        Elevator.in[floorNum] = [];
-    }
-
-    addFloorOut(floorNum, party) {
-        this.out[floorNum].push(party);
-    }
-
-    getFloorOut(floorNum) {
-        return this.out[floorNum];
-
-    }
+    
 
 
-    // adding all waiting guests to elevator
+    // Adding and removing guests from the elevator
+
     enterParties(floorNum) {
         let currIn = this.getFloorIn(floorNum);
         let leftovers = [];
@@ -228,8 +210,6 @@ class Elevator {
         this.setFloorIn(floorNum,leftovers);
     }
 
-
-    // exiting all parties in elevator
     exitParties(floorNum) {
         let currOut = this.getFloorOut(floorNum);
         for (let i = 0; i < currOut.length; i+=1) {
@@ -239,7 +219,9 @@ class Elevator {
     }
     
 
-    // waits for specified milliseconds
+
+    // Controlling time
+
     async timer() {
         return new Promise((resolve) => {
             let temp = setInterval(() => {
@@ -255,9 +237,8 @@ class Elevator {
     }
     
 
-    // goes from current to the highest necessary floor
+    // Elevator Sweep in one direction
     async pass() {
-        // iterate each floor, if floor occupied wait 15 seconds, else go next floor. Transfer in to out. Remove out.
         
         const d = this.getDirection;
         let partiesLeft;
@@ -302,14 +283,13 @@ class Elevator {
                 break;
 
             }
-            
         }
 
         return true;
     }
 
 
-    // main function to initiate the elevator recursive loop
+    // main function to initiate the iterative elevator loop
     async fulltrip() {
 
         // prevents main loop from being called twice. Like lock and key.
@@ -346,11 +326,12 @@ class Elevator {
 }
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////
 
+// Main Program
+
+
+// Global Variables 
 
 var n = 20;
 var btn = document.getElementById("thebutton");
@@ -370,48 +351,40 @@ for (let i = 0; i < n; i+=1) {
 
 // main event program
 btn.addEventListener("click", function() {
-
     
     let sfloor = parseInt(document.getElementById("sfloor").value);
     let dfloor = parseInt(document.getElementById("dfloor").value);
     
     
+    //input check
     if (isNaN(sfloor) || isNaN(dfloor) || dfloor == sfloor || sfloor < 0 || dfloor < 0 || sfloor >= n || dfloor >= n){
-        alert("Invalid input. Enter different integers in both fields.");
+        alert(`Invalid input. Enter different integers between 0 and ${n} in both fields.`);
 
     } else {
+
+        // creating trip instance
         tripID += 1;
         let currentParty = new Party(tripID, sfloor, dfloor);
 
-        /* if (elevator1.getBusy == false) {
-            elevator1.addFloorIn(sfloor, currentParty);  // adds party
-            elevator1.fulltrip();  // initiates trip loop
-        } else {
-            elevator1.addFloorIn(sfloor, currentParty);  // adds party
 
-        }    
+        // sending trip to appropriate elevator
 
-        */
+        elevator1.addFloorIn(sfloor, currentParty);  // adds party to class-level IN array.
 
-        // handling new request to an elevator
-        
         if (elevator1.getBusy == false && elevator2.getBusy == true) {
             console.log("Elevator 1 Starting");
-            currentParty.setElevator = 1;
-            elevator1.addFloorIn(sfloor, currentParty);  // adds party
+            currentParty.setElevator = 1;    
             elevator1.fulltrip();  // initiates trip loop
         
         } else if (elevator2.getBusy == false && elevator1.getBusy == true) {
             console.log("Elevator 2 Starting");
             currentParty.setElevator = 2;
-            elevator2.addFloorIn(sfloor, currentParty);  // adds party
             elevator2.fulltrip();  // initiates trip loop
 
         } else if (elevator1.getBusy == elevator2.getBusy) {
             let closest = currentParty.getClosest();
             if (closest == 1) {
                 currentParty.setElevator = 1;
-                elevator1.addFloorIn(sfloor, currentParty);  // adds party
                 
                 if (elevator1.getBusy == false){
                     console.log("Elevator 1 Starting");
@@ -419,28 +392,27 @@ btn.addEventListener("click", function() {
                 }
             } else {
                 currentParty.setElevator = 2;
-                elevator2.addFloorIn(sfloor, currentParty);  // adds party
 
                 if (elevator2.getBusy == false){
                     console.log("Elevator 2 Starting");
                     elevator2.fulltrip();
                 }
-            }
-
-            
+            } 
         }
-
     }
-
 });
 
-// holding open the elevator 1
+
+
+// holding elevator open and closing elevator
+
+// holding open elevator 1
 btn2.addEventListener("click", function() {
     console.log("works");
     elevator1.setMs = elevator1.getMs + 3;
 });
 
-// holding open the elevator 2
+// holding open elevator 2
 btn3.addEventListener("click", function() {
     elevator2.setMs = elevator2.getMs + 3;
 });
