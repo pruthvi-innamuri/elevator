@@ -21,10 +21,10 @@ Build a simple two-elevator system for n stories. The system can pick up guests 
 ## Project Design:
 
 ### Language Selection:
-This task requires event-based input. A naive Python or Java solution won't work since they stop the flow of execution, waiting for input. Hence, Javascript was used for input processing and logic while HTML served as the bare-bone interface.
+This task requires event-based input. A naive Python or Java solution fails since it stops the flow of execution, waiting for input. Instead, Javascript is used for input processing and logic while HTML served as the bare-bone interface.
 
 ### Elevator Architecture:
-Every current guest of the elevator can placed in one of two groups: wanting to go into the elevator or wanting to come out of the elevator. To mirror this, two arrays of height n are used. Each index represents a floor and each floor contains an array of guests. Each guest is represented by a "Party" instance (will be discussed further). 
+Every current guest of the elevator can placed in one of two groups: wanting to go into the elevator or wanting to come out of the elevator. To mirror this, two arrays of height n are used. Each index represents a floor and each floor contains an array of guests. Each guest is represented by a "Party" instance. 
 <br>
 <br>
 The first array is static-level, to be shared by all elevator instances, so the closest elevator can pick up the guest. The second array is object-level since each elevator can have their own set of guests inside that must be dropped off.
